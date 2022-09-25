@@ -65,6 +65,19 @@ npm run test:unit
 npm run lint
 ```
 
+## Technology stack
+
+| Name                    | Desc                 |
+|-----------------------|--------------------|
+| `Vite`  | Build tooling      |
+| `Vue3`     | Popular frontedn framework        |
+| `TypeScript`        | Type check tools for JavaScript |
+| `Pinia`      | Store for Vue        |
+| `D3.js`      | Charts generating library        |
+| `Vitest`     | Unit test tool        |
+| `Element Plus`       | UI framework     |
+
+
 # FAQ
 
 ## how to deploy to cloud server
@@ -112,9 +125,10 @@ http://47.243.32.241:2473
 ```
 
 - list page
-  <img width="1220" alt="image" src="https://user-images.githubusercontent.com/23239075/192129272-d3991873-e06a-4aa5-9a44-956b323e873e.png">
+![图片](https://github.com/daisygogogo/dota2-stats/blob/master/doc/list1.jpg)
+ 
 - detail page
-  <img width="1272" alt="image" src="https://user-images.githubusercontent.com/23239075/192129323-f83c9e44-762d-42e8-a283-c386ee876436.png">
+![图片](https://github.com/daisygogogo/dota2-stats/blob/master/doc/list2.jpg)
 
 # unit test introduce
 
@@ -124,8 +138,3 @@ http://47.243.32.241:2473
 | dota2-stats/test/test2.ts |      | pass   |
 | dota2-stats/test/test3.ts |      | pass   |
 
-# where is d3 used
-
-- code screenshots
-
-- function display
