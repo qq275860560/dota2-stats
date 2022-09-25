@@ -6,8 +6,13 @@ import PieChart from "@/components/pie-chart/index.vue";
 import usePlayers from "./usePlayers";
 
 const route = useRoute();
-const { players, getTopTenPlayersOfHero, getSelectedHero, selectedHero, flag } =
-  usePlayers();
+const {
+  players,
+  getTopTenPlayersOfHero,
+  getSelectedHero,
+  selectedHero,
+  loading,
+} = usePlayers();
 
 const tableRef = ref(null);
 
@@ -54,7 +59,7 @@ watchEffect(() => {
         </div>
       </div>
       <div class="players-table table-height-full">
-        <el-table ref="tableRef" :data="players" :key="flag">
+        <el-table ref="tableRef" :data="players" v-loading="loading">
           <el-table-column label="Rank" min-width="40">
             <template #default="{ $index }">{{ $index + 1 }}</template>
           </el-table-column>
