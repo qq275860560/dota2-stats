@@ -1,0 +1,60 @@
+@import "./base.css";
+
+.content-dark-bg {
+  background-color: #141414;
+}
+
+.main-title {
+  height: 80px;
+  line-height: 80px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px #0ebeff, 0 0 20px #0ebeff, 0 0 50px #0ebeff,
+    0 0 100px #0ebeff, 0 0 200px #0ebeff;
+  color: #fff;
+}
+
+.tooltip {
+  position: absolute;
+  min-width: 60px;
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  fill: #fff;
+  color: #fff;
+  text-anchor: middle;
+  text-align: center;
+  font-weight: bold;
+  z-index: 9999;
+}
+
+.table-height-full {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .el-table {
+    flex: 1;
+  }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.h-full {
+  height: 100%;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
