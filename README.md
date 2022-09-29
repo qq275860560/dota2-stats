@@ -83,33 +83,96 @@ npm run lint
 ## how to deploy to cloud server
 
 - prepare the cloud server machine,eg
-  - host:47.243.32.241
+  - host:97.74.88.173
   - ssh port:22
   - app port:2473
 - close firewall or allow the port 22 and the port 2473
-- upload dota2-stat2/dist folder to cloud server
+
+- login cloud server,create runtime dir
+```
+mkdir -pv /usr/local/dota2-stats
+```
+
+- upload dota2-stat2/dist folder to cloud server runtime dir
 
 ```
-scp -r dota2-stat2/dist root@47.243.32.241:/usr/local/dota2-stat2/
+scp -r dota2-stat2/dist/* root@97.74.88.173:/usr/local/dota2-stats/
 ```
 
-- login server,download nginx,and edit nginx.conf
+- login server to edit nginx.conf
 
 ```
-server {
-   listen 2473;
-   server_name localhost;
-   root /usr/local/dota2-stat2/dist;
-   location / {
-        try_files $uri /index.html;
-   }
+
+cat > /usr/local/dota2-stats/nginx.conf<<-"EOF"
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
 }
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;   
+    keepalive_timeout  65;
+    
+    log_format access '$remote_addr $host- $remote_user [$time_local] '
+        '"$request" $status $body_bytes_sent '
+        '"$http_referer" "$http_user_agent" $http_x_forwarded_for - $http_x_real_ip';
+    
+    access_log /var/log/nginx/access.log access;
+  
+    server {
+        listen       2473;
+        root  html;
+  	     index  index.html index.html;
+
+    	  proxy_set_header   Host    $host;
+        proxy_set_header   Remote_Addr    $remote_addr;
+        proxy_set_header   X-Real-IP    $remote_addr;
+     	  proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
+    
+      	location / {
+         		try_files $uri $uri/ /index.html;
+      	}
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+EOF
+
+
+
+```
+
+- download nginx
+```
+docker pull nginx
 ```
 
 - start nginx
 
 ```
-/usr/bin/nginx
+docker kill dota2-stats
+docker rm dota2-stats
+
+docker run --restart=always   \
+--name dota2-stats \
+-p 2473:2473 \
+-v /usr/local/dota2-stats:/etc/nginx/html \
+-v /usr/local/dota2-stats/nginx.conf:/etc/nginx/nginx.conf \
+-v /usr/local/dota2-stats:/var/log/nginx \
+-e TZ=Asia/Shanghai \
+-d nginx
 ```
 
 - local execute the command curl to test netwwork
@@ -121,7 +184,7 @@ curl localhost:2437
 - browser open url
 
 ```
-http://47.243.32.241:2473
+http://97.74.88.173:2473
 ```
 
 - list page
